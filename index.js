@@ -7,7 +7,7 @@ const PORT =3000;
 
 const router = require('./routes/cart');
 
-app.use('/api/v1',router);
+app.use(router);
 const {dbconnect} = require('./services/database.js');
 dbconnect();
 app.listen(PORT,()=>{
