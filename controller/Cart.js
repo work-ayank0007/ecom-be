@@ -56,4 +56,40 @@ const addItems=async (req,res) => {
         })
     }
 }
-module.exports={getProducts,deleteCart,addItems}
+const addToCart =async (req,res) => {
+    try {
+        const cart_id = req.params.id;
+        const user_id=  req.user.id;
+        await pool.query('INSERT INTO "orders" (user_id,cart_id) VALUES ($1,$2);',[user_id,cart_id]);
+        return res.status(200).json({
+            success:true,
+            message:"item added successfully"
+        })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(400).json({
+            status:false,
+            error,
+            message:"cart item added unsuccessfull"
+        })
+    }
+}
+const removeFromCart = async (req,res) => {
+    try {
+        const cart_id = req.params.id;
+        const user_id=  req.user.id;
+        await pool.query('DELETE FROM "orders" where (cart_id =$1 AND user_id =$2)',[cart_id,user_id]);
+        return res.status(200).json({
+            success:true,
+            message:"item removed successfully"
+        })
+    } catch (error) {
+        console.error(error.message);
+        return res.status(400).json({
+            status:false,
+            error,
+            message:"cart item delete unsuccessfull"
+        })
+    }
+}
+module.exports={getProducts,deleteCart,addItems,addToCart,removeFromCart}
