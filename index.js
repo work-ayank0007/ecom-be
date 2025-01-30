@@ -1,16 +1,24 @@
-const express=require('express');
-const app =express();
-const cookieParser=require('cookie-parser');
-app.use(cookieParser());
-app.use(express.json());
-const PORT =3000;
-
-
+const express = require('express');
+const cors = require('cors'); // Import the CORS package
+const cookieParser = require('cookie-parser');
+const { dbconnect } = require('./services/database.js');
 const router = require('./routes/cart');
 
+const app = express();
+const PORT = 3000;
+
+// Allow all origins
+app.use(cors());  // This will allow all origins
+
+app.use(cookieParser());
+app.use(express.json());
+
 app.use(router);
-const {dbconnect} = require('./services/database.js');
+
+// Connect to the database
 dbconnect();
-app.listen(PORT,()=>{
-    console.log(`app is running on PORT: ${PORT}`);
-})
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`App is running on PORT: ${PORT}`);
+});

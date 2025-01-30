@@ -4,8 +4,8 @@ require('dotenv').config();
 const pool = new Pool({
     connectionString: process.env.DB_URL,
     ssl: {
-        rejectUnauthorized: true,  // Ensure SSL verification is on
-        ca: fs.readFileSync('ca.pem').toString()  // Path to the CA certificate
+        rejectUnauthorized: true,
+        ca: fs.readFileSync('ca.pem').toString()
     },
     max: 20,
     connectionTimeoutMillis: 0,
