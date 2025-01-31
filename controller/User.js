@@ -53,7 +53,7 @@ const login = async (req, res) => {
                 expires: new Date(Date.now()+60*60*1000),
                 sameSite: 'None',
                 httpOnly: true,
-                secure:false
+                secure:true
             }
             ).json({
                 status: true,
