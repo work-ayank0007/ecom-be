@@ -6,7 +6,7 @@ const register = async (req, res) => {
     try {
         const { name, email, pass } = req.body;
 
-        const userExist = await pool.query("SELECT * FROM user WHERE 'email' = $1", [email]);
+        const userExist = await pool.query('SELECT * FROM "user" WHERE email = $1', [email]);
         if (userExist.rows.length > 0) {
             return res.status(400).json({
                 status: false,
@@ -45,14 +45,20 @@ const login = async (req, res) => {
             });
         }
         const user = userExist.rows[0];
-        
+
         if (await bcrypt.compare(pass, user.pass)) {
-            const token = jwt.sign({email,role:user.role},process.env.JWT_SECRET);
-            console.log(token);
-            
-            return res.status(200).cookie('token',token).json({
+            const token = jwt.sign({ email, role: user.role }, process.env.JWT_SECRET);
+
+            return res.status(200).cookie('token', token, {
+                expires: new Date(Date.now()+60*60*1000),
+                // sameSite: 'None',
+                httpOnly: true,
+                // secure:false
+            }
+            ).json({
                 status: true,
-                message: "Welcome to ecom site"
+                message: "Welcome to ecom site",
+                role:user.role
             })
         } else {
             return res.status(400).json({

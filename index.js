@@ -8,7 +8,12 @@ const app = express();
 const PORT = 3000;
 
 // Allow all origins
-app.use(cors());  // This will allow all origins
+app.use(cors(
+    {
+        origin: 'http://localhost:5173',
+        credentials: true, 
+    }
+));  
 
 app.use(cookieParser());
 app.use(express.json());

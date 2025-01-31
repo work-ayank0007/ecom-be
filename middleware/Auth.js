@@ -46,9 +46,8 @@ const isValid = async (req, res, next) => {
 };
 const isAdmin = async (req,res,next) => {
     console.log(req.user.email);
-    
     if (req.user.role.toLowerCase() != 'admin') { 
-        return res.status(402).json({
+        return res.success(402).json({
             success:false,
             message:"You are not authorized"
         })

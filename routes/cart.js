@@ -12,6 +12,12 @@ router.post('/register',register);
 router.post('/login',login);
 router.post('/cart/:id',auth,isValid,addToCart);
 router.delete('/cart/:id',auth,isValid,removeFromCart);
-router.get('/auth',auth,isValid);
+router.get('/auth',auth,isValid,(req,res)=>{
+    return res.status(200).json({
+        success:true,
+        data:req.user,
+        message:"you are a verified user"
+    })
+});
 
 module.exports=router;
