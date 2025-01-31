@@ -53,7 +53,7 @@ const login = async (req, res) => {
                 maxAge:60*60*1000,
                 httpOnly: true,
                 sameSite: 'None',
-                secure:false
+                secure:true
             }
             ).json({
                 status: true,
@@ -80,7 +80,7 @@ const logout = (req, res) => {
         maxAge:60*60*1000,
         httpOnly: true,
         sameSite: 'None',
-        secure:false
+        secure:true
     });
     res.json({ message: 'Logged out successfully' });
 };
