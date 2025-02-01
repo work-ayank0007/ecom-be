@@ -117,4 +117,30 @@ const removeFromCart = async (req, res) => {
         })
     }
 }
-module.exports = { getProducts, deleteCart, addItems, addToCart, removeFromCart }
+const fetchproduct = async (req, res) => {
+    try {
+        const user_id = req.user.id;
+        const result = await pool.query(`
+            SELECT c.*, COUNT(o.cart_id) as quantity
+            FROM "cart" c
+            LEFT JOIN "orders" o ON c.id = o.cart_id
+            WHERE o.user_id = $1
+            GROUP BY c.id
+        `, [user_id]);
+
+        return res.status(200).json({
+            success: true,
+            message: "item fetch success",
+            data: result.rows
+        });
+    } catch (error) {
+        console.error(error.message);
+        return res.status(400).json({
+            success: false,
+            error,
+            message: "cart fetch failed"
+        });
+    }
+};
+
+module.exports = { getProducts, deleteCart, addItems, addToCart, removeFromCart ,fetchproduct}

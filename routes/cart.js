@@ -1,5 +1,5 @@
 const express=require('express');
-const { getProducts, deleteCart, addItems, addToCart, removeFromCart } = require('../controller/Cart');
+const { getProducts, deleteCart, addItems, addToCart, removeFromCart, fetchproduct } = require('../controller/Cart');
 const { register, login, logout } = require('../controller/User');
 const { auth, isValid, isAdmin } = require('../middleware/Auth');
 const router = express.Router();
@@ -13,6 +13,7 @@ router.post('/login',login);
 router.post('/cart/:id',auth,isValid,addToCart);
 router.delete('/cart/:id',auth,isValid,removeFromCart);
 router.post('/logout',auth,isValid,logout);
+router.get('/cart',auth,isValid,fetchproduct);
 router.get('/auth',auth,isValid,(req,res)=>{
     return res.status(200).json({
         success:true,
